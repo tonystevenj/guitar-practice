@@ -21,6 +21,20 @@ function pickRandom<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)]
 }
 
+function generateBars(chords: Item[], count: number): Item[] {
+  const bars: Item[] = []
+  const usageCount = new Map<Item, number>()
+  for (let i = 0; i < count; i++) {
+    const candidates = chords.filter(
+      (c) => c !== bars[i - 1] && (usageCount.get(c) ?? 0) < 2
+    )
+    const pick = candidates.length > 0 ? pickRandom(candidates) : pickRandom(chords)
+    bars.push(pick)
+    usageCount.set(pick, (usageCount.get(pick) ?? 0) + 1)
+  }
+  return bars
+}
+
 export default function RandomPassage() {
   const [passage, setPassage] = useState<Passage | null>(null)
 
@@ -31,7 +45,7 @@ export default function RandomPassage() {
     if (chords.length === 0 || rhythms.length === 0) return
     setPassage({
       rhythm: pickRandom(rhythms),
-      bars: Array.from({ length: 8 }, () => pickRandom(chords)),
+      bars: generateBars(chords, 8),
     })
   }, [chords, rhythms])
 
@@ -42,7 +56,7 @@ export default function RandomPassage() {
 
   const randomizeChords = useCallback(() => {
     if (chords.length === 0) return
-    setPassage((prev) => prev ? { ...prev, bars: Array.from({ length: 8 }, () => pickRandom(chords)) } : null)
+    setPassage((prev) => prev ? { ...prev, bars: generateBars(chords, 8) } : null)
   }, [chords])
 
   return (
