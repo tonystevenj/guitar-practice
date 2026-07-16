@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+
+:root {
+  --bg: #faf8f5;
+  --surface: #ffffff;
+  --primary: #d4a0a0;
+  --primary-dark: #c48888;
+  --accent: #a8c4c4;
+  --text: #4a4a4a;
+  --text-muted: #8a8a8a;
+  --border: #e8e4e0;
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  --shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 1rem 0.75rem;
+  max-width: 480px;
+  margin: 0 auto;
+  font-weight: 300;
+  font-size: 14px;
+}
