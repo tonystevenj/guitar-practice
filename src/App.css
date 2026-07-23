@@ -74,9 +74,16 @@ hr {
 }
 
 .static-practice li::before {
-  content: '●';
+  content: '·';
   position: absolute;
   left: 0;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  top: 0.15rem;
+}
+
+.static-practice li:has(> h1, > h2, > h3)::before {
+  content: '●';
   color: var(--primary);
   font-size: 0.5rem;
   top: 0.45rem;
