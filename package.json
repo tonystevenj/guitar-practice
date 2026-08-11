@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build && cp CNAME docs/",
+    "push": "npm run build && git add . && git commit -m 'App update from local' && git push",
     "lint": "oxlint",
     "preview": "vite preview"
   },
