@@ -32,3 +32,7 @@ npm run dev
 
 Push 到 `main` 分支后会自动通过 GitHub Actions 部署到 GitHub Pages。
 确保在 GitHub repo Settings > Pages 中选择 "GitHub Actions" 作为 source。
+
+```bash
+npm run push
+```
