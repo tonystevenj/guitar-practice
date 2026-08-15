@@ -37,6 +37,7 @@ function generateBars(chords: Item[], count: number): Item[] {
 
 export default function RandomPassage() {
   const [passage, setPassage] = useState<Passage | null>(null)
+  const [showRhythmPicker, setShowRhythmPicker] = useState(false)
 
   const chords = useMemo(() => toItems(chordModules), [])
   const rhythms = useMemo(() => toItems(rhythmModules), [])
@@ -49,10 +50,15 @@ export default function RandomPassage() {
     })
   }, [chords, rhythms])
 
-  const randomizeRhythm = useCallback(() => {
+  const openRhythmPicker = useCallback(() => {
     if (rhythms.length === 0) return
-    setPassage((prev) => prev ? { ...prev, rhythm: pickRandom(rhythms) } : null)
+    setShowRhythmPicker(true)
   }, [rhythms])
+
+  const selectRhythm = useCallback((rhythm: Item) => {
+    setPassage((prev) => prev ? { ...prev, rhythm } : null)
+    setShowRhythmPicker(false)
+  }, [])
 
   const randomizeChords = useCallback(() => {
     if (chords.length === 0) return
@@ -69,7 +75,7 @@ export default function RandomPassage() {
         </button>
         {passage && (
           <>
-            <button className="generate-btn btn-secondary" onClick={randomizeRhythm}>
+            <button className="generate-btn btn-secondary" onClick={openRhythmPicker}>
               换节奏型
             </button>
             <button className="generate-btn btn-secondary" onClick={randomizeChords}>
@@ -100,6 +106,31 @@ export default function RandomPassage() {
                   />
                   <span className="chord-name">{chord.name}</span>
                 </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showRhythmPicker && (
+        <div className="modal-overlay" onClick={() => setShowRhythmPicker(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>选择节奏型</h3>
+              <button className="modal-close" onClick={() => setShowRhythmPicker(false)}>
+                ×
+              </button>
+            </div>
+            <div className="rhythm-picker-grid">
+              {rhythms.map((rhythm) => (
+                <button
+                  key={rhythm.name}
+                  className={`rhythm-picker-item${passage?.rhythm.name === rhythm.name ? ' selected' : ''}`}
+                  onClick={() => selectRhythm(rhythm)}
+                >
+                  <img src={rhythm.url} alt={rhythm.name} />
+                  <span>{rhythm.name}</span>
+                </button>
               ))}
             </div>
           </div>
